@@ -71,11 +71,15 @@ class Fashion_MNIST(object):
         self.test = dataset(test[0], test[1])
         
         self.__label_dict = ["t-shirt/top", "trouser", "pullover", "dress", "coat",
-                            "sandal", "shirt", "sneaker", "bag", "ankle boot"]
+                             "sandal", "shirt", "sneaker", "bag", "ankle boot"]
 
     def get_label(self, label_idx):
         
         return self.__label_dict[label_idx]
+    
+    def get_labels(self):
+        
+        return self.__label_dict
 
 if __name__ == "__main__":
     
