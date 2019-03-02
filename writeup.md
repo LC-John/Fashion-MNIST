@@ -13,7 +13,9 @@
 例如下面的一组例子。在一个mnist分类器上，上图的九个0均可以被正确识别为“0”。经过中图的扰动后，得到下图，此时这九个0从左到右会被该分类器依次识别为“1”到“9”。
 
 ![mnist 0](./images/demo_mnist_0.jpg)
+
 ![mnist 0](./images/demo_mnist_adv.gif)
+
 ![mnist 0](./images/demo_mnist_adv.jpg)
 
 ## 黑盒攻击（Black-Box）和白盒攻击（White-Box）
