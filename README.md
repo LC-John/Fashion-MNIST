@@ -25,7 +25,7 @@ The original MNIST dataset contains a lot of handwritten digits. Members of the 
 
 ## The CNN model
 
-A just-so-so CNN model is provided. It applies the same struct as [this model](https://github.com/GoogleCloudPlatform/tensorflow-without-a-phd/blob/master/tensorflow-mnist-tutorial/mnist_4.2_batchnorm_convolutional.py).
+A just-so-so CNN model is provided. It applies the same structure as [this model](https://github.com/GoogleCloudPlatform/tensorflow-without-a-phd/blob/master/tensorflow-mnist-tutorial/mnist_4.2_batchnorm_convolutional.py).
 
 Source code can be found in ``./code/model.py``, and the model checkpoint is in ``./model/model.ckpt``.
 
