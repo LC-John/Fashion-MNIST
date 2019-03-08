@@ -85,3 +85,14 @@ class Fashion_MNIST(object):
 if __name__ == "__main__":
     
     fmnist = Fashion_MNIST()
+    
+    try:
+        import matplotlib.pyplot as plt
+        for i in range(10):
+            x, y = fmnist.train.next_batch(1)
+            while not numpy.argmax(y) == i:
+                x, y = fmnist.train.next_batch(1)
+            plt.imshow(x.reshape([28, 28]))
+            plt.imsave("../images/fmnist_%d.jpg"%i, x.reshape([28, 28]))
+    except Exception as e:
+        print(e)
