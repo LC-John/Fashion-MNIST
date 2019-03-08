@@ -8,14 +8,13 @@ Created on Thu Feb 21 18:43:37 2019
 
 import numpy
 import random
-
 from mnist import MNIST
 
 class dataset(object):
         
     def __init__(self, x, y):
             
-        self.__x = numpy.asarray(x).reshape((-1, 28, 28))
+        self.__x = numpy.asarray(x).reshape((-1, 28, 28, 1))
         self.__y = numpy.asarray(y)
         self.size = self.__x.shape[0]
         self.__idx = []
@@ -43,7 +42,8 @@ class dataset(object):
         x, y = ([], [])
         for i in idx:
             x.append(self.__x[i])
-            y.append(self.__y[i])
+            y.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+            y[-1][self.__y[i]] = 1
         return numpy.asarray(x, dtype=dtype), numpy.asarray(y, dtype=dtype)
 
 class Fashion_MNIST(object):
@@ -70,8 +70,9 @@ class Fashion_MNIST(object):
         self.valid = dataset(va[0], va[1])
         self.test = dataset(test[0], test[1])
         
-        self.__label_dict = ["t-shirt/top", "trouser", "pullover", "dress", "coat",
-                             "sandal", "shirt", "sneaker", "bag", "ankle boot"]
+        self.__label_dict = ["t-shirt/top", "trouser", "pullover", "dress",
+                             "coat", "sandal", "shirt", "sneaker", "bag",
+                             "ankle boot"]
 
     def get_label(self, label_idx):
         
