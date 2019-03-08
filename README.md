@@ -1,5 +1,18 @@
 # Fashion MNIST
 
+## Environments
+
+If your package version is not the same as listed below, there is a chance that you may run the code successfully. But still, please use the recommended environment setting.
+
+| Environment | Version |
+| ----------- | ------- |
+| python      | 3.6.6   |
+| tensorflow  | 1.10.0  |
+| numpy       | 1.16.0  |
+| mnist       | --      |
+
+The ``mnist`` package is a mnist data parser, which can be installed with ``pip install python-mnist``. It can be imported with ``import mnist`` in your own code.
+
 ## The Fashion MNIST Dataset
 
 The Fashion MNIST dataset is from [here](https://www.kaggle.com/zalando-research/fashionmnist).
