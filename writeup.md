@@ -13,8 +13,8 @@
 例如下面的一组例子。在一个mnist分类器上，上图的九个0均可以被正确识别为“0”。经过中图的扰动后，得到下图，此时这九个0从左到右会被该分类器依次识别为“1”到“9”。
 
 <div style="text-align: center">
-<img src="./images/demo_mnist_0.jpg"/>
-<img src="./images/demo_mnist_adv.gif"/>
+<img src="./images/demo_mnist_0.jpg"/><br>
+<img src="./images/demo_mnist_adv.gif"/><br>
 <img src="./images/demo_mnist_adv.jpg"/>
 </div>
 
