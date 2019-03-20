@@ -32,7 +32,7 @@
 
 ## 白盒攻击 (White-box Attack)
 
-介绍一个最简单的白盒攻击的方法，即“固定模型调输入样本”。分类器http://chart.googleapis.com/chart?cht=tx&chl=\Large C)接受输入图像http://chart.googleapis.com/chart?cht=tx&chl=\Large x)后产生各个类别概率向量http://chart.googleapis.com/chart?cht=tx&chl=\Large \hat y)，Loss function http://chart.googleapis.com/chart?cht=tx&chl=\Large L(x,y|C))表示http://chart.googleapis.com/chart?cht=tx&chl=\Large \hat y)与http://chart.googleapis.com/chart?cht=tx&chl=\Large x)的真实类别http://chart.googleapis.com/chart?cht=tx&chl=\Large y)的距离。http://chart.googleapis.com/chart?cht=tx&chl=\Large \L(x,y|C))越小说明http://chart.googleapis.com/chart?cht=tx&chl=\Large C)的预测与真实的类别http://chart.googleapis.com/chart?cht=tx&chl=\Large y)越接近。
+介绍一个最简单的白盒攻击的方法，即“固定模型调输入样本”。分类器<img src="http://latex.codecogs.com/gif.latex?C" />接受输入图像<img src="http://latex.codecogs.com/gif.latex?x" />后产生各个类别概率向量<img src="http://latex.codecogs.com/gif.latex?\hat y" />，Loss function <img src="http://latex.codecogs.com/gif.latex?L(x,y|C)" />表示<img src="http://latex.codecogs.com/gif.latex?\hat y" />与图像<img src="http://latex.codecogs.com/gif.latex?x" />的真实类别<img src="http://latex.codecogs.com/gif.latex?y" />的距离。<img src="http://latex.codecogs.com/gif.latex?L(x,y|C)" />越小说明<img src="http://latex.codecogs.com/gif.latex?C" />的预测与真实的类别<img src="http://latex.codecogs.com/gif.latex?y" />)越接近。
 
 
 ## 对抗训练（Adversarial Training）
@@ -58,6 +58,7 @@
 3. 对选出的图像进行白盒攻击，得到对抗样本，类别A和B的对应关系如下表。
 
 | 原正确类别A    | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+| ------------- | - | - | - | - | - | - | - | - | - | - |
 | 指定的目标类别B | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 |
 
 要求提交：
