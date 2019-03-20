@@ -32,7 +32,19 @@
 
 ## 白盒攻击 (White-box Attack)
 
-介绍一个最简单的白盒攻击的方法，即“固定模型调输入样本”。分类器<img src="http://latex.codecogs.com/gif.latex?C" />接受输入图像<img src="http://latex.codecogs.com/gif.latex?x" />后产生各个类别概率向量<img src="http://latex.codecogs.com/gif.latex?\hat y" />，Loss function <img src="http://latex.codecogs.com/gif.latex?L(x,y|C)" />表示<img src="http://latex.codecogs.com/gif.latex?\hat y" />与图像<img src="http://latex.codecogs.com/gif.latex?x" />的真实类别<img src="http://latex.codecogs.com/gif.latex?y" />的距离。<img src="http://latex.codecogs.com/gif.latex?L(x,y|C)" />越小说明<img src="http://latex.codecogs.com/gif.latex?C" />的预测与真实的类别<img src="http://latex.codecogs.com/gif.latex?y" />)越接近。
+分类器<img src="http://latex.codecogs.com/gif.latex?C" />接受输入图像<img src="http://latex.codecogs.com/gif.latex?x" />后产生各个类别概率向量<img src="http://latex.codecogs.com/gif.latex?\hat y" />，Loss function <img src="http://latex.codecogs.com/gif.latex?L(x,y|C)" />表示<img src="http://latex.codecogs.com/gif.latex?\hat y" />与图像<img src="http://latex.codecogs.com/gif.latex?x" />的真实类别<img src="http://latex.codecogs.com/gif.latex?y" />的距离。<img src="http://latex.codecogs.com/gif.latex?L(x,y|C)" />越小说明<img src="http://latex.codecogs.com/gif.latex?C" />的预测与真实的类别<img src="http://latex.codecogs.com/gif.latex?y" />越接近。进行攻击时，对<img src="http://latex.codecogs.com/gif.latex?x" />扰动得到<img src="http://latex.codecogs.com/gif.latex?\tilde x" />，使得<img src="http://latex.codecogs.com/gif.latex?L(x,\tilde y|C)" />尽量小，<img src="http://latex.codecogs.com/gif.latex?\tilde y" />即为攻击时的目标标签。因此白盒攻击其实是一个优化问题，即<img src="http://latex.codecogs.com/gif.latex?\min_{\tilde x}L(\tilde x,\tilde y|C)" />且<img src="http://latex.codecogs.com/gif.latex?\min_{\tilde x}dist(x,\tilde x)" />，该式表示期望<img src="http://latex.codecogs.com/gif.latex?\tilde x" />与<img src="http://latex.codecogs.com/gif.latex?x" />尽量相近，但模型输出<img src="http://latex.codecogs.com/gif.latex?C(\tilde x)" />为<img src="http://latex.codecogs.com/gif.latex?\tilde y" />。
+
+介绍一个最简单的白盒攻击的梯度下降的方法，即“固定模型调输入样本”。
+
+1. 初始化<img src="http://latex.codecogs.com/gif.latex?x^{(0)}=x" />
+2. 利用反向传播计算<img src="http://latex.codecogs.com/gif.latex?\nabla_{x^{(n)}}L=\frac{\partial L(x^{(n)},\tilde y|C)}{\partial x^{(n)}}" />。
+3. 利用梯度调节样本<img src="http://latex.codecogs.com/gif.latex?x^{(n+1)}=x^{(n)}-\alpha\nabla_{x^{(n)}}L" />
+4. 迭代直至<img src="http://latex.codecogs.com/gif.latex?arg\max C(x^{(n)})=arg\max \tilde y" />，输出<img src="http://latex.codecogs.com/gif.latex?\tilde x=x^{(n)}" />。
+
+这种方法相对简单粗暴，但并不能保证<img src="http://latex.codecogs.com/gif.latex?\tilde x" />与<img src="http://latex.codecogs.com/gif.latex?x" />尽量相近，产生出的<img src="http://latex.codecogs.com/gif.latex?\tilde x" />有可能会被人眼直接识别出来。更为高效的方法请参考相关论文。
+
+## 黑盒攻击 (Black-box Attack)
+
 
 
 ## 对抗训练（Adversarial Training）
