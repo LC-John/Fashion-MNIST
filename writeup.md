@@ -39,7 +39,7 @@
 1. 初始化<img src="http://latex.codecogs.com/gif.latex?x^{(0)}=x" />；
 2. 利用反向传播计算<img src="http://latex.codecogs.com/gif.latex?\\nabla_{x^{(n)}}L=\frac{\partial L(x^{(n)},\tilde y|C)}{\partial x^{(n)}}" />；
 3. 利用梯度调节样本<img src="http://latex.codecogs.com/gif.latex?x^{(n+1)}=x^{(n)}-\alpha\cdot\nabla_{x^{(n)}}L" />，其中<img src="http://latex.codecogs.com/gif.latex?\alpha" />为学习速率；
-4. 迭代直至<img src="http://latex.codecogs.com/gif.latex?arg\max C(x^{(n)})=arg\max \tilde y" />，输出<img src="http://latex.codecogs.com/gif.latex?\tilde x=x^{(n)}" />。
+4. 迭代直至<img src="http://latex.codecogs.com/gif.latex?argmax C(x^{(n)})=argmax \tilde y" />
 
 这种方法相对简单粗暴，但并不能保证<img src="http://latex.codecogs.com/gif.latex?\tilde x" />与<img src="http://latex.codecogs.com/gif.latex?x" />尽量相近，产生出的<img src="http://latex.codecogs.com/gif.latex?\tilde x" />有可能会被人眼直接识别出来。更为高效的方法请参考相关论文。
 
