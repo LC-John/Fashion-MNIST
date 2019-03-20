@@ -1,5 +1,7 @@
 # 图像分类模型的对抗攻击和对抗训练
 
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
 ## 对抗攻击（Adversarial Attack）
 
 假设存在一图像模型（eg. 图像分类模型），可以接受图像输入，并产生正确的输出（eg. 预测分类）。攻击算法通过修改原本的图像数据，使得模型产生和原输出不同的输出。但是这样简单的修改非常容易被“识破”（例如把猫的图像直接换成狗，输入猫狗分类器，输出也一定就是狗）。
@@ -36,10 +38,10 @@
 
 介绍一个最简单的白盒攻击的梯度下降的方法，即“固定模型调输入样本”。
 
-1. 初始化<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">$$x^{(0)}=x$$</script>；
-2. 利用反向传播计算<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">$$\nabla_{x^{(n)}}L=\frac{\partial L(x^{(n)},\tilde y|C)}{\partial x^{(n)}}$$</script>；
-3. 利用梯度调节样本<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">$$x^{(n+1)}=x^{(n)}-\alpha\cdot\nabla_{x^{(n)}}L$$</script>，其中<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">$$\alpha$$</script>为学习速率；
-4. 迭代直至<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default">$$arg\max C(x^{(n)})=arg\max \tilde y$$</script>。
+1. 初始化$$x^{(0)}=x$$；
+2. 利用反向传播计算$$\nabla_{x^{(n)}}L=\frac{\partial L(x^{(n)},\tilde y|C)}{\partial x^{(n)}}$$；
+3. 利用梯度调节样本$$x^{(n+1)}=x^{(n)}-\alpha\cdot\nabla_{x^{(n)}}L$$，其中$$\alpha$$为学习速率；
+4. 迭代直至$$arg\max C(x^{(n)})=arg\max \tilde y$$。
 
 这种方法相对简单粗暴，但并不能保证<img src="http://latex.codecogs.com/gif.latex?\tilde x" />与<img src="http://latex.codecogs.com/gif.latex?x" />尽量相近，产生出的<img src="http://latex.codecogs.com/gif.latex?\tilde x" />有可能会被人眼直接识别出来。更为高效的方法请参考相关论文。
 
