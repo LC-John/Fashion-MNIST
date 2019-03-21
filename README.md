@@ -41,3 +41,7 @@ If your package version is not the same as listed below, there is a chance that 
 | mnist       | --      |
 
 The ``mnist`` package is a mnist data parser, which can be installed with ``pip install python-mnist``. It can be imported with ``import mnist`` in your own code.
+
+## Project requirements
+
+See [here](https://github.com/LC-John/Fashion-MNIST/blob/master/writeup/writeup.pdf).
