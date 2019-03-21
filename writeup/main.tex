@@ -60,6 +60,9 @@
 在\textbf{黑盒攻击}的场景下，整个待攻击模型都处于黑盒中，其模型框架、模型结构等所有超参数，以及模型各层权重等参数均不可知，仅有一个``predict''接口可用。该接口允许输入图像数据，并返回模型输出的各个类别的概率。除此之外的所有操作均被禁止。
 在\textbf{白盒攻击}的场景下，整个待攻击模型均为透明，所有参数和超参数都可见，允许使用``predict''和``gradient''接口。``predict''接口与黑盒攻击中相同；``gradient''接口，允许输入图像数据和期望的输出，计算任意层上的（包括输入数据上的）的梯度并返回。禁止训练和直接给权重赋值的操作。
 
+在这次作业中，我们统一规定黑盒模型有``predict''接口可用，白盒模型有``predict''和``gradient''接口可用。在本次作业的图像分类问题上，对两个接口的定义如下：``predict''接口接受图像输入$x$，返回模型$C$预测的概率向量$\hat y$，$\hat y$的每一维对应$C$预测的该类别的概率；``gradient''接口接收图像输入$x$和类别向量$y$（$y$是一个One-hot的概率向量，为1的一维表示类别），返回损失函数$L(x,y|C)=CE(y,\hat y)$对$x$的梯度$\nabla_xL(x,y|C)=\frac{\partial L(x,y|C)}{\partial x}$。
+
+
 一般而言，图像模型的白盒攻击非常简单，因为输入数据上的梯度可以明确指出扰动的方向；而黑盒攻击相对困难，因为需要随机尝试扰动的方向。但在NLP领域中，白盒攻击很困难，因为句子空间是离散空间，如何计算和利用梯度会很困难；而黑盒攻击相对简单，仅仅需要随机地进行扰动尝试即可。
 
 在现实场景中，黑盒攻击占据大部分，因而仅仅在``攻击''这一层面上，黑盒攻击更为重要（例如攻击某个加密系统中的人脸识别系统或者虹膜识别系统）。但是，白盒攻击可以针对模型产生特定的样本，这些对抗样本可以被用来修复模型原本的缺陷。就像``黑客''和``白客''，白盒攻击的目的并不是为了攻破模型，而是发现模型的缺陷，并辅助修复--因此在''防御``的层面上，白盒攻击更有意义。
@@ -81,12 +84,11 @@
 \subsection{白盒攻击(White-Box Attack)}
 \label{section:adversarial attack;subsection:white-box}
 
-分类器$C$接受输入图像$x$后产生概率向量$\hat y$（每一维对应一类），损失函数$L(x,y|C)$表示$\hat y=C(x)$与图像$x$的真实类别$y$的距离。$L(x,y|C)$越小说明$C$的预测与真实的类别越接近。在进行白盒攻击时，若我们期望分类器$C$给出的错误输出是$\tilde y$，则需要对$x$扰动得到$\tilde x$，并且使得$L(\tilde x,\tilde y|C)$尽量小。因此白盒攻击实质上是一个优化问题，即需要满足式\ref{equation:min loss}和式\ref{equation:min distance}，其中$D(a,b)$计算$a$和$b$的距离（例如欧氏距离）。式\ref{equation:min loss}和式\ref{equation:min distance}表明，对抗样本$\tilde x$与原样本$x$被要求尽量相近，而$\tilde x$会使得模型$C$的输出为错误类别$\tilde y$。
+分类器$C$接受输入图像$x$后产生概率向量$\hat y$（每一维对应一类），损失函数$L(x,y|C)$表示$\hat y=C(x)$与图像$x$的真实类别$y$的距离。$L(x,y|C)$越小说明$C$的预测与真实的类别越接近。在进行白盒攻击时，若我们期望分类器$C$给出的错误输出是$\tilde y$，则需要对$x$扰动得到$\tilde x$，并且使得$L(\tilde x,\tilde y|C)$尽量小。因此白盒攻击实质上是一个优化问题，即需要满足式\ref{equation:min}，其中$D(a,b)$计算$a$和$b$的距离（例如欧氏距离）。式\ref{equation:min}表明，对抗样本$\tilde x$与原样本$x$被要求尽量相近，而$\tilde x$会使得模型$C$的输出为错误类别$\tilde y$。
 
 
 \begin{align}
-    &\min_{\tilde x} L(\tilde x,\tilde y|C) \label{equation:min loss} \\
-    &\min_{\tilde x} D(\tilde x, x) \label{equation:min distance}
+    &\min_{\tilde x} L(\tilde x,\tilde y|C)\ \&\ \min_{\tilde x} D(\tilde x, x) \label{equation:min}
 \end{align}
 
 一个最简单的白盒攻击算法就是梯度下降，即``固定模型调数据''。这种方法相对简单粗暴，更为高效的方法请参考相关论文。
@@ -147,9 +149,9 @@
 \subsection{数据集}
 \label{section:requirement;subsection:dataset}
 
-我们规定使用Fashion MNIST数据集。这是一个类MNIST数据集，数据集的具体介绍请见README\footnote{\url{https://github.com/LC-John/Fashion-MNIST/blob/master/README.md}}。Fashion MNIST数据集位于data目录中\footnote{\url{https://github.com/LC-John/Fashion-MNIST/blob/master/data}}，数据集的python3封装位于fmnist\_dataset.py文件中\footnote{\url{https://github.com/LC-John/Fashion-MNIST/blob/master/code/fmnist_dataset.py}}。
+我们规定使用Fashion MNIST数据集。这是一个类MNIST数据集，数据集的具体介绍请见README.md。Fashion MNIST数据集位于data目录中，数据集的python3封装位于code/fmnist\_dataset.py文件中。
 
-此外，我们还提供一个已经训练好的CNN模型（test集准确率达到95\%）以及1000个样本用于黑盒攻击。CNN模型的代码位于model.py文件中\footnote{\url{https://github.com/LC-John/Fashion-MNIST/blob/master/code/model.py}}，模型存放于model.ckpt断点文件中\footnote{\url{https://github.com/LC-John/Fashion-MNIST/blob/master/model/model.ckpt}}，用于攻击的样本位于attack\_data目录下\footnote{\url{https://github.com/LC-John/Fashion-MNIST/blob/master/attack\_data}}。
+此外，我们还提供一个已经训练好的CNN模型（test集准确率达到95\%）以及1000个样本用于黑盒攻击。CNN模型的代码位于code/model.py文件中，模型存放于model/model.ckpt断点文件中，用于攻击的样本位于attack\_data目录下。\footnote{项目位于\url{https://github.com/LC-John/Fashion-MNIST}}
 
 \subsection{白盒攻击}
 \label{section:requirement;subsection:white-box attack}
