@@ -7,6 +7,6 @@ The examples are stored in a list, whose structure is shown as below.
 ```
 [
 	[1x28x28 array, 1x28x28 array, ..., 1x28x28 array],
-	[1x1 label,     1x1 label,     ..., 1x1 label]
+	[1x10 label,    1x10 label,    ..., 1x10 label]
 ]
 ```
