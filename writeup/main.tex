@@ -151,7 +151,7 @@
 
 我们规定使用Fashion MNIST数据集。这是一个类MNIST数据集，数据集的具体介绍请见README.md。Fashion MNIST数据集位于data目录中，数据集的python3封装位于code/fmnist\_dataset.py文件中。
 
-此外，我们还提供一个已经训练好的CNN模型（test集准确率达到95\%）以及1000个样本用于黑盒攻击。CNN模型的代码位于code/model.py文件中，模型存放于model/model.ckpt断点文件中，用于攻击的样本位于attack\_data目录下。\footnote{项目位于\url{https://github.com/LC-John/Fashion-MNIST}}
+此外，我们还提供一个已经训练好的CNN模型（test集准确率达到90\%）以及1000个样本用于黑盒攻击。CNN模型的代码位于code/model.py文件中，模型存放于model/model.ckpt断点文件中，用于攻击的样本位于attack\_data目录下。\footnote{项目位于\url{https://github.com/LC-John/Fashion-MNIST}}
 
 \subsection{白盒攻击}
 \label{section:requirement;subsection:white-box attack}
@@ -159,7 +159,7 @@
 要求对自己训练的模型进行定向白盒攻击，即原本被正确分类的图像，在扰动后被判别为指定类别，原类别与目标类别一一对应，如表\ref{table:label}所示。要求：
 
 \begin{itemize}
-    \item 训练一个Fashion MNIST上的图像分类模型，要求分类准确率不低于95\%；
+    \item 训练一个Fashion MNIST上的图像分类模型，要求分类准确率不低于90\%；
     \item 在\textbf{test集}中随机选出至少1000张可以被分类器正确分类的图像；
     \item 对选出的图像进行白盒攻击，得到对抗样本。
 \end{itemize}
