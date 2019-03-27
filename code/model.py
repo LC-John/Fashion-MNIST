@@ -62,6 +62,9 @@ class CNN(object):
         self.__saver = tf.train.Saver(var_list=self.__trainables,
                                       max_to_keep=1)
         
+        # Gradient on input image
+        self.__grad = tf.gradients(self.__loss, self.__X)
+        
     def __add_placeholders(self):
         
         self.__X = tf.placeholder(self.__dtype, [None, 28, 28, 1])
@@ -133,6 +136,7 @@ class CNN(object):
         Y = tf.nn.softmax(Ylogits)
         update_ema = tf.group(update_ema1, update_ema2,
                               update_ema3, update_ema4)
+        
         return Ylogits, Y, update_ema
 
     def __build_training_graph(self):
@@ -231,6 +235,17 @@ class CNN(object):
                                   self.__pkeep: 1.0,
                                   self.__pkeep_conv: 1.0})
         return y
+        
+    def grad_op(self, sess, x, y):
+        
+        (grad) = sess.run([self.__grad],
+                          feed_dict={self.__X: x,
+                                     self.__Y_: y,
+                                     self.__iter: 0,
+                                     self.__tst: True,
+                                     self.__pkeep: 1.0,
+                                     self.__pkeep_conv: 1.0})
+        return grad
     
     def save(self, sess, path):
         
