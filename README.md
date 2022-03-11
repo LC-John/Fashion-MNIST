@@ -27,7 +27,7 @@ The original MNIST dataset contains a lot of handwritten digits. Members of the 
 
 A just-so-so CNN model is provided.
 
-Source code can be found in ``./code/model.py``, and the model checkpoint is in ``./model/model.ckpt``.
+Source code can be found in ``./code/model.py``, and the model checkpoint is in ``./model/cnn.ckpt``.
 
 ## Environments
 
