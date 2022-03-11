@@ -1,98 +1,73 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Feb 21 18:43:37 2019
-
 @author: zhanghuangzhao
 """
 
-import numpy
-import random
+import torch
+from torch.utils.data import Dataset
 from mnist import MNIST
 
-class dataset(object):
-        
-    def __init__(self, x, y):
-            
-        self.__x = numpy.asarray(x).reshape((-1, 28, 28, 1))
-        self.__y = numpy.asarray(y)
-        self.size = self.__x.shape[0]
-        self.__idx = []
-        self.__shuffle()
-        self.images = self.__x
-        self.labels = self.__y
-            
-    def __shuffle(self):
-            
-        self.__idx = random.sample(range(self.size), self.size)
-        
-    def reset_epoch(self):
-        
-        self.__shuffle()
-            
-    def next_batch(self, batch_size, dtype=numpy.float32):
-            
-        if len(self.__idx) < batch_size:
-            self.__shuffle()
-        assert batch_size <= self.size, \
-            "Batch size %d is larger than dataset size %d" % (batch_size, self.size)
-                
-        idx = self.__idx[:batch_size]
-        self.__idx = self.__idx[batch_size:]
-        x, y = ([], [])
-        for i in idx:
-            x.append(self.__x[i])
-            y.append([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
-            y[-1][self.__y[i]] = 1
-        return numpy.asarray(x, dtype=dtype), numpy.asarray(y, dtype=dtype)
-
-class Fashion_MNIST(object):
+class FashionMNISTDataset(Dataset):
     
-    def __init__(self, validation_size=10000, data_dir="../data"):
+    def __init__(self, data):
         
-        fmnist = MNIST(data_dir, return_type="lists")
-        train = fmnist.load_training()
-        test = fmnist.load_testing()
+        x, y = data
+        assert len(x) == len(y)
+        self.x = x
+        self.y = y
         
-        assert validation_size >= 0 and validation_size <= len(train[0]), \
-            "Invalid validattion ratio %.3f, should be within 0 to %d" \
-            % (validation_size, len(train[0]))
-
-        idx = random.sample(range(len(train[0])), len(train[0]))
-        tr, va = ([[], []], [[], []])
-        for i in idx[:validation_size]:
-            va[1].append(train[1][i])
-            va[0].append(train[0][i])
-        for i in idx[validation_size:]:
-            tr[1].append(train[1][i])
-            tr[0].append(train[0][i])
-        self.train = dataset(tr[0], tr[1])
-        self.valid = dataset(va[0], va[1])
-        self.test = dataset(test[0], test[1])
+    def __len__(self):
         
-        self.__label_dict = ["t-shirt/top", "trouser", "pullover", "dress",
-                             "coat", "sandal", "shirt", "sneaker", "bag",
-                             "ankle boot"]
-
-    def get_label(self, label_idx):
-        
-        return self.__label_dict[label_idx]
+        return len(self.x)
     
-    def get_labels(self):
+    def __getitem__(self, idx):
         
-        return self.__label_dict
+        return torch.tensor(self.x[idx]).float(), \
+                torch.tensor(self.y[idx])
+    
+def load_fashion_mnist(fmnist_dir, n_dev=10000, random=None):
+    
+    fmnist = MNIST(fmnist_dir, return_type="lists")
+    train = fmnist.load_training()
+    test = fmnist.load_testing()
+    
+    assert n_dev >= 0 and n_dev <= len(train[0]), \
+            "Invalid dev size %d, should be within 0 to %d" \
+            % (n_dev, len(train[0]))
+    if random is None:
+        import random
+    idx = random.sample(range(len(train[0])), len(train[0]))
+    dev = [], []
+    for i in idx[:n_dev]:
+        dev[1].append(train[1][i])
+        dev[0].append(train[0][i])
+    _train = [], []
+    for i in idx[n_dev:]:
+        _train[1].append(train[1][i])
+        _train[0].append(train[0][i])
+    return FashionMNISTDataset(_train), FashionMNISTDataset(dev), FashionMNISTDataset(test)
+
 
 if __name__ == "__main__":
     
-    fmnist = Fashion_MNIST()
+    from torch.utils.data import DataLoader
+    train, dev, test = load_fashion_mnist("../data")
+    train_dataloader = DataLoader(train, batch_size=1)
+    dev_dataloader = DataLoader(dev, batch_size=1)
+    test_dataloader = DataLoader(test, batch_size=1)
     
     try:
         import matplotlib.pyplot as plt
-        for i in range(10):
-            x, y = fmnist.train.next_batch(1)
-            while not numpy.argmax(y) == i:
-                x, y = fmnist.train.next_batch(1)
+        label = 0
+        for i, (x, y) in enumerate(train_dataloader):
+            if y.item() != label:
+                continue
             plt.imshow(x.reshape([28, 28]))
-            plt.imsave("../images/fmnist_%d.jpg"%i, x.reshape([28, 28]))
+            plt.imsave("../images/fmnist_%d.jpg" % label, x.reshape([28, 28]))
+            plt.show()
+            label += 1
+            if label >= 10:
+                break
     except Exception as e:
         print(e)

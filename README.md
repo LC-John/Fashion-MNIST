@@ -35,10 +35,10 @@ If your package version is not the same as listed below, there is a chance that 
 
 | Environment | Version |
 | ----------- | ------- |
-| python      | 3.6.6   |
-| tensorflow  | 1.10.0  |
-| numpy       | 1.16.0  |
-| mnist       | --      |
+| python      | 3.7     |
+| pytorch     | 1.8     |
+| numpy       | 1.16    |
+| mnist       | 0.7     |
 
 The ``mnist`` package is a mnist data parser, which can be installed with ``pip install python-mnist``. It can be imported with ``import mnist`` in your own code.
 

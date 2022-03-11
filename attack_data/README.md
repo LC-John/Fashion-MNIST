@@ -1,8 +1,8 @@
-The examples for black-box attack are in this directory.
+The samples for black-box attack are in this directory.
 
 It is a ``.pkl`` file. Use the package ``pickle``  of ``Python3`` to load the examples, please.
 
-The examples are stored in a list, whose structure is shown as below.
+The samples are stored in a list, whose structure is shown as below.
 
 ```
 [
