@@ -119,7 +119,7 @@
 \begin{itemize}
     \item 初始化样本，$x^{(0)}=x$；
     \item 根据Markov转移概率$g(x|x^{(n)})$产生候选样本$x'$；
-    \item 若$u\le C(x')[arg\max \tilde y]$，则拒绝$x'$，其中随机变量$u\sim U(0,1)$，$C(x')[arg\max \tilde y]$表示分类器在以$x'$为输入时，在目标类别上的预测概率；否则，接受$x'$；
+    \item 若$u\ge C(x')[arg\max \tilde y]$，则拒绝$x'$，其中随机变量$u\sim U(0,1)$，$C(x')[arg\max \tilde y]$表示分类器在以$x'$为输入时，在目标类别上的预测概率；否则，接受$x'$；
     \item 若拒绝$x'$，则重新产生新的候选样本；否则，接受转移，$x^{(n+1)}=x'$；
     \item 重复迭代，直至收敛（满足式\ref{equation:converge}），返回$\tilde x=x^{(n)}$。
 \end{itemize}
